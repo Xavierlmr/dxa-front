@@ -2,6 +2,7 @@
 import { defineComponent } from 'vue';
 
 export default defineComponent({
+    props:['wpData'],
     methods:{
         createEffect(){
             const card: HTMLElement = this.$el.querySelector(".card");
@@ -14,7 +15,7 @@ export default defineComponent({
             const x = e.clientX;
             const y = e.clientY;
             const div = (e.target as HTMLElement).getBoundingClientRect();
-
+            
             const mx = (x - div.left) / div.width * 100;
             const my = (y - div.top) / div.height * 100;
 
@@ -44,17 +45,22 @@ export default defineComponent({
     }
 })
 </script>
-// const card: HTMLElement = this.$el.querySelector(".card");
 <template>
     <div class="box">
-        <div class="card">
-            <img class="h-64 w-52 object-cover" src="../assets/loufi.png">
-            <div class="glaire"></div>
+        <div class="card group rounded-[15px] overflow-hidden">
+            <div>
+                <img class="h-64 w-52 object-cover" :src="'http://localhost:3000/upload/'+wpData.image">
+                <div class="duration-300 opacity-0 group-hover:opacity-100 absolute inset-x-0 bottom-0 h-16 bg-black/60">
+                    <p class="text-white font-medium ml-2">{{wpData.title}}</p>
+                    <p class="text-[#F6E4FC] ml-2">{{wpData.description}}</p>
+                </div>
+            </div>
+            <div class="glaire rounded-[15px]"></div>
         </div>
     </div>
 </template>
 
-<style>
+<style scoped>
 :root{
     --mx: 50%;
     --my: 50%;
@@ -68,7 +74,6 @@ export default defineComponent({
     transform: rotateY(var(--rx)) rotateX(var(--ry));
     transform-style: preserve-3d;
     box-shadow: 0 10px 20px -5px #000;
-    border-radius: 15px;
     outline: none;
     transition: box-shadow .4s ease,outline .2s ease, opacity .33s ease-out;
 }
@@ -79,7 +84,6 @@ export default defineComponent({
     position: absolute;
     width: 208px;
     height: 256px;
-    border-radius: 15px;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
     mix-blend-mode: overlay;
     filter: brightness(.9) contrast(1.75);
@@ -88,7 +92,5 @@ export default defineComponent({
 }
 img{
     position: absolute;
-    height: 256px;
-    border-radius: 15px;
 }
 </style>
